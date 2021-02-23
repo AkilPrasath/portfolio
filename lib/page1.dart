@@ -80,165 +80,192 @@ class _StartPageState extends State<StartPage> {
                         duration: Duration(milliseconds: 300),
                         height: 50,
                         width: 50,
-                        color: colors[containerIndex],
+                        color: containerIndex != -1
+                            ? colors[containerIndex]
+                            : Colors.transparent,
                       )
                     : Container(),
               ),
             ),
-            Column(
-              // mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: screenHeight * 0.2,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+            Container(
+              height: screenHeight,
+              width: screenWidth,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Stack(
-                      alignment: Alignment.centerLeft,
-                      overflow: Overflow.visible,
-                      children: [
-                        Align(
-                          child: Container(
-                            // height: screenHeight * 0.15,
-                            width: screenWidth,
-                            child: Column(
+                    SizedBox(
+                      height: screenHeight * 0.2,
+                    ),
+                    Flexible(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Flexible(
+                            child: Stack(
+                              alignment: Alignment.centerLeft,
+                              overflow: Overflow.visible,
                               children: [
-                                AnimatedAlign(
-                                  curve: Curves.elasticInOut,
-                                  duration: Duration(milliseconds: 1000),
-                                  alignment: animatedAlignment,
-                                  child: AnimatedDefaultTextStyle(
-                                    duration: Duration(milliseconds: 1000),
-                                    style: TextStyle(
-                                      fontSize: 85.sp,
-                                      color: nameColor,
-                                    ),
-                                    child: Text(
-                                      "I'm Akil Prasath R",
-                                    ),
-                                  ),
-                                ),
-                                AnimatedOpacity(
-                                  duration: Duration(milliseconds: 1000),
-                                  opacity: dividerOpacity,
+                                Align(
                                   child: Container(
-                                    width: screenWidth * 0.6,
-                                    child: Divider(),
+                                    // height: screenHeight * 0.15,
+                                    width: screenWidth,
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        AnimatedAlign(
+                                          curve: Curves.elasticInOut,
+                                          duration:
+                                              Duration(milliseconds: 1000),
+                                          alignment: animatedAlignment,
+                                          child: AnimatedDefaultTextStyle(
+                                            duration:
+                                                Duration(milliseconds: 1000),
+                                            style: TextStyle(
+                                              fontSize: 85.sp,
+                                              color: nameColor,
+                                            ),
+                                            child: Text(
+                                              "I'm Akil Prasath R",
+                                            ),
+                                          ),
+                                        ),
+                                        Flexible(
+                                          child: AnimatedOpacity(
+                                            duration:
+                                                Duration(milliseconds: 1000),
+                                            opacity: dividerOpacity,
+                                            child: Container(
+                                              width: screenWidth * 0.6,
+                                              height: 10,
+                                              child: Divider(),
+                                            ),
+                                          ),
+                                        ),
+                                        Flexible(
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              SizedBox(
+                                                width: 0.1.sw,
+                                              ),
+                                              Text(
+                                                "App Developer_",
+                                                style: TextStyle(
+                                                  color: Colors.blue,
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 40.sp,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SizedBox(
-                                      width: 0.3.sw,
+                                AnimatedPositioned(
+                                  curve: Curves.easeIn,
+                                  duration: Duration(milliseconds: 450),
+                                  left: imageOffsetFromLeft,
+                                  child: Container(
+                                    height: screenHeight * 0.35,
+                                    // width: screenWidth * 0.15,
+                                    child: Image.asset(
+                                      "assets/images/akil.jpg",
+                                      frameBuilder: (BuildContext context,
+                                          Widget child,
+                                          int frame,
+                                          bool wasSynchronouslyLoaded) {
+                                        if (wasSynchronouslyLoaded) {
+                                          return child;
+                                        }
+                                        if (frame != null) {
+                                          startTitleAnimation();
+                                        }
+                                        return AnimatedOpacity(
+                                          child: child,
+                                          opacity: frame == null ? 0 : 1,
+                                          duration: const Duration(
+                                              milliseconds: 1000),
+                                          curve: Curves.easeOut,
+                                        );
+                                      },
                                     ),
-                                    Text(
-                                      "A Software Engineer destined to make world a better place to live.",
-                                      style: TextStyle(
-                                        color: Colors.blue,
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 40.sp,
-                                      ),
-                                    ),
-                                  ],
+                                  ),
                                 ),
                               ],
                             ),
                           ),
-                        ),
-                        AnimatedPositioned(
-                          curve: Curves.easeIn,
-                          duration: Duration(milliseconds: 450),
-                          left: imageOffsetFromLeft,
-                          child: Container(
-                            // height: screenHeight * 0.35,
-                            width: screenWidth * 0.15,
-                            child: Image.asset(
-                              "assets/images/akil.jpg",
-                              frameBuilder: (BuildContext context, Widget child,
-                                  int frame, bool wasSynchronouslyLoaded) {
-                                if (wasSynchronouslyLoaded) {
-                                  return child;
-                                }
-                                if (frame != null) {
-                                  startTitleAnimation();
-                                }
-                                return AnimatedOpacity(
-                                  child: child,
-                                  opacity: frame == null ? 0 : 1,
-                                  duration: const Duration(milliseconds: 1000),
-                                  curve: Curves.easeOut,
-                                );
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 0.2.sh,
+                    ),
+                    Flexible(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Flexible(
+                            child: MouseRegion(
+                              onEnter: (details) {
+                                setState(() {
+                                  showCursorImage = true;
+                                });
                               },
+                              onExit: (details) {
+                                setState(() {
+                                  showCursorImage = false;
+                                  containerIndex = -1;
+                                });
+                              },
+                              child: ColumnBuilder(
+                                itemCount: 5,
+                                itemBuilder: (context, index) {
+                                  return MouseRegion(
+                                    onHover: (PointerHoverEvent event) {
+                                      setState(() {
+                                        RenderBox box = containerKeys[index]
+                                            .currentContext
+                                            .findRenderObject() as RenderBox;
+                                        Offset off = box
+                                            .localToGlobal(event.localPosition);
+                                        dy = off.dy - 25;
+                                        dx = off.dx - 25;
+                                        containerIndex = index;
+                                      });
+                                    },
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      width: 0.6.sw,
+                                      key: containerKeys[index],
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(24.0),
+                                        child: AnimatedDefaultTextStyle(
+                                            duration:
+                                                Duration(milliseconds: 300),
+                                            style: TextStyle(
+                                              fontSize: containerIndex == index
+                                                  ? 35.sp
+                                                  : 30.sp,
+                                            ),
+                                            child: Text("Achievement $index")),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ],
                 ),
-                SizedBox(
-                  height: 0.2.sh,
-                ),
-                Flexible(
-                  child: Column(
-                    children: [
-                      Flexible(
-                        child: MouseRegion(
-                          onEnter: (details) {
-                            setState(() {
-                              showCursorImage = true;
-                            });
-                          },
-                          onExit: (details) {
-                            setState(() {
-                              showCursorImage = false;
-                              containerIndex = -1;
-                            });
-                          },
-                          child: ColumnBuilder(
-                            itemCount: 5,
-                            itemBuilder: (context, index) {
-                              return MouseRegion(
-                                onHover: (PointerHoverEvent event) {
-                                  setState(() {
-                                    RenderBox box = containerKeys[index]
-                                        .currentContext
-                                        .findRenderObject() as RenderBox;
-                                    Offset off =
-                                        box.localToGlobal(event.localPosition);
-                                    dy = off.dy - 25;
-                                    dx = off.dx - 25;
-                                    containerIndex = index;
-                                  });
-                                },
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  width: 0.6.sw,
-                                  key: containerKeys[index],
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(20.0),
-                                    child: AnimatedDefaultTextStyle(
-                                        duration: Duration(milliseconds: 300),
-                                        style: TextStyle(
-                                          fontSize: containerIndex == index
-                                              ? 35.sp
-                                              : 30.sp,
-                                        ),
-                                        child: Text("Achievement $index")),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+              ),
             ),
           ],
         ),
