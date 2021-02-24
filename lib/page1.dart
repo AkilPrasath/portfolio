@@ -1,3 +1,7 @@
+import 'dart:async';
+import 'dart:math';
+import 'dart:ui';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -10,12 +14,9 @@ class StartPage extends StatefulWidget {
   _StartPageState createState() => _StartPageState();
 }
 
-class _StartPageState extends State<StartPage> {
+class _StartPageState extends State<StartPage> with SingleTickerProviderStateMixin {
   double screenWidth, screenHeight;
-  Alignment animatedAlignment = Alignment.centerLeft;
-  Color nameColor = Colors.transparent;
-  double dividerOpacity = 0;
-  double imageOffsetFromLeft = 0;
+
   //
   double dx = 0, dy = 0;
   List<Color> colors = [
@@ -23,7 +24,7 @@ class _StartPageState extends State<StartPage> {
     Colors.blue,
     Colors.purple,
     Colors.orange,
-    Colors.green
+    Colors.green,
   ];
   int containerIndex = -1;
   List<GlobalKey> containerKeys = [
@@ -31,32 +32,30 @@ class _StartPageState extends State<StartPage> {
     GlobalKey(),
     GlobalKey(),
     GlobalKey(),
-    GlobalKey()
+    GlobalKey(),
+  ];
+  int cardIndex = 0;
+  List<String> titleList = [
+    "Title 1",
+    "Title 2",
+    "Title 3",
+  ];
+  List<String> contentList = [
+    "Sed tincidunt nec dolor ac pretium. In venenatis faucibus dignissim. Nullam consectetur tincidunt sapien. Aenean eu molestie tellus. Nunc nec fermentum libero.",
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eu molestie tellus. Nunc nec fermentum libero.",
+    "Nullam consectetur tincidunt sapien. Aenean eu molestie tellus. Nunc nec fermentum libero.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt nec dolor ac pretium. In venenatis faucibus dignissim.",
   ];
   bool showCursorImage = false;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    Timer.periodic(Duration(seconds: 4), start);
   }
 
-  void startTitleAnimation() {
-    debugPrint("started");
-    Future.delayed(Duration(milliseconds: 1)).then((value) {
-      setState(() {
-        imageOffsetFromLeft = screenWidth * 0.18;
-      });
-    });
-    Future.delayed(Duration(milliseconds: 1)).then((value) {
-      setState(() {
-        animatedAlignment = Alignment.center;
-      });
-      Future.delayed(Duration(milliseconds: 450)).then((value) {
-        setState(() {
-          nameColor = Colors.black;
-          dividerOpacity = 1;
-        });
-      });
+  void start(Timer timer) {
+    setState(() {
+      cardIndex = (cardIndex + 1) % 3;
     });
   }
 
@@ -80,9 +79,7 @@ class _StartPageState extends State<StartPage> {
                         duration: Duration(milliseconds: 300),
                         height: 50,
                         width: 50,
-                        color: containerIndex != -1
-                            ? colors[containerIndex]
-                            : Colors.transparent,
+                        color: containerIndex != -1 ? colors[containerIndex] : Colors.transparent,
                       )
                     : Container(),
               ),
@@ -96,114 +93,137 @@ class _StartPageState extends State<StartPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox(
-                      height: screenHeight * 0.2,
+                      height: screenHeight * 0.05,
+                    ),
+                    TitleRow(),
+                    SizedBox(
+                      height: 0.1.sh,
                     ),
                     Flexible(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Flexible(
-                            child: Stack(
-                              alignment: Alignment.centerLeft,
-                              overflow: Overflow.visible,
-                              children: [
-                                Align(
-                                  child: Container(
-                                    // height: screenHeight * 0.15,
-                                    width: screenWidth,
+                      child: Container(
+                        height: 0.4.sh,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Flexible(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    height: 18.sp,
+                                  ),
+                                  AnimatedContainer(
+                                    duration: Duration(milliseconds: 500),
+                                    height: 10.sp,
+                                    width: 10.sp,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: cardIndex == 0
+                                          ? Colors.grey.withOpacity(0.8)
+                                          : Colors.grey.withOpacity(0.2),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                    child: AnimatedContainer(
+                                      duration: Duration(milliseconds: 500),
+                                      height: 10.sp,
+                                      width: 10.sp,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: cardIndex == 1
+                                            ? Colors.grey.withOpacity(0.8)
+                                            : Colors.grey.withOpacity(0.2),
+                                      ),
+                                    ),
+                                  ),
+                                  AnimatedContainer(
+                                    duration: Duration(milliseconds: 500),
+                                    height: 10.sp,
+                                    width: 10.sp,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: cardIndex == 2
+                                          ? Colors.grey.withOpacity(0.8)
+                                          : Colors.grey.withOpacity(0.2),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 0.2.sh,
+                                  ),
+                                  FaIcon(
+                                    FontAwesomeIcons.instagram,
+                                    color: Colors.grey.withOpacity(0.3),
+                                  ),
+                                  SizedBox(
+                                    height: 18.sp,
+                                  ),
+                                  FaIcon(
+                                    FontAwesomeIcons.linkedinIn,
+                                    color: Colors.grey.withOpacity(0.3),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              width: 30.sp,
+                            ),
+                            Flexible(
+                              child: AnimatedSwitcher(
+                                transitionBuilder: (Widget child, Animation<double> animation) {
+                                  final offsetAnimation = Tween<Offset>(
+                                          end: Offset(-0.05, 0.0), begin: Offset(-0.1, 0.0))
+                                      .animate(animation);
+                                  return FadeTransition(
+                                    opacity: animation,
+                                    child: SlideTransition(
+                                      position: offsetAnimation,
+                                      child: child,
+                                    ),
+                                  );
+                                },
+                                duration: Duration(seconds: 1),
+                                child: Container(
+                                  key: Key(cardIndex.toString()),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(32.0),
                                     child: Column(
-                                      mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        AnimatedAlign(
-                                          curve: Curves.elasticInOut,
-                                          duration:
-                                              Duration(milliseconds: 1000),
-                                          alignment: animatedAlignment,
-                                          child: AnimatedDefaultTextStyle(
-                                            duration:
-                                                Duration(milliseconds: 1000),
+                                        Text(
+                                          titleList[cardIndex],
+                                          style: TextStyle(
+                                            color: Colors.red,
+                                            fontSize: 60.sp,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 50.sp,
+                                        ),
+                                        Flexible(
+                                          child: Text(
+                                            contentList[cardIndex],
                                             style: TextStyle(
-                                              fontSize: 85.sp,
-                                              color: nameColor,
+                                              // color: Colors.red,
+                                              fontSize: 25.sp,
                                             ),
-                                            child: Text(
-                                              "I'm Akil Prasath R",
-                                            ),
-                                          ),
-                                        ),
-                                        Flexible(
-                                          child: AnimatedOpacity(
-                                            duration:
-                                                Duration(milliseconds: 1000),
-                                            opacity: dividerOpacity,
-                                            child: Container(
-                                              width: screenWidth * 0.6,
-                                              height: 10,
-                                              child: Divider(),
-                                            ),
-                                          ),
-                                        ),
-                                        Flexible(
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              SizedBox(
-                                                width: 0.1.sw,
-                                              ),
-                                              Text(
-                                                "App Developer_",
-                                                style: TextStyle(
-                                                  color: Colors.blue,
-                                                  fontWeight: FontWeight.w700,
-                                                  fontSize: 40.sp,
-                                                ),
-                                              ),
-                                            ],
                                           ),
                                         ),
                                       ],
                                     ),
                                   ),
                                 ),
-                                AnimatedPositioned(
-                                  curve: Curves.easeIn,
-                                  duration: Duration(milliseconds: 450),
-                                  left: imageOffsetFromLeft,
-                                  child: Container(
-                                    height: screenHeight * 0.35,
-                                    // width: screenWidth * 0.15,
-                                    child: Image.asset(
-                                      "assets/images/akil.jpg",
-                                      frameBuilder: (BuildContext context,
-                                          Widget child,
-                                          int frame,
-                                          bool wasSynchronouslyLoaded) {
-                                        if (wasSynchronouslyLoaded) {
-                                          return child;
-                                        }
-                                        if (frame != null) {
-                                          startTitleAnimation();
-                                        }
-                                        return AnimatedOpacity(
-                                          child: child,
-                                          opacity: frame == null ? 0 : 1,
-                                          duration: const Duration(
-                                              milliseconds: 1000),
-                                          curve: Curves.easeOut,
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
-                          ),
-                        ],
+                            Container(
+                              width: 0.4.sw,
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 0.2.sh,
                     ),
                     Flexible(
                       child: Column(
@@ -231,8 +251,7 @@ class _StartPageState extends State<StartPage> {
                                         RenderBox box = containerKeys[index]
                                             .currentContext
                                             .findRenderObject() as RenderBox;
-                                        Offset off = box
-                                            .localToGlobal(event.localPosition);
+                                        Offset off = box.localToGlobal(event.localPosition);
                                         dy = off.dy - 25;
                                         dx = off.dx - 25;
                                         containerIndex = index;
@@ -245,12 +264,9 @@ class _StartPageState extends State<StartPage> {
                                       child: Padding(
                                         padding: const EdgeInsets.all(24.0),
                                         child: AnimatedDefaultTextStyle(
-                                            duration:
-                                                Duration(milliseconds: 300),
+                                            duration: Duration(milliseconds: 300),
                                             style: TextStyle(
-                                              fontSize: containerIndex == index
-                                                  ? 35.sp
-                                                  : 30.sp,
+                                              fontSize: containerIndex == index ? 35.sp : 30.sp,
                                             ),
                                             child: Text("Achievement $index")),
                                       ),
@@ -270,6 +286,186 @@ class _StartPageState extends State<StartPage> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class TitleRow extends StatefulWidget {
+  @override
+  _TitleRowState createState() => _TitleRowState();
+}
+
+class _TitleRowState extends State<TitleRow> with TickerProviderStateMixin {
+  AnimationController imageOffsetAnimationController, textOffsetAnimationController;
+  Animation<Offset> imageOffsetAnimation, textOffsetAnimation;
+  bool imageLoaded = false;
+  Color nameColor = Colors.transparent;
+  Color sidelineColor = Colors.transparent;
+  double subtitleOpacity = 0;
+  double imageOffsetFromLeft = 0;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    imageOffsetAnimationController = AnimationController(
+      duration: Duration(seconds: 1),
+      vsync: this,
+    );
+    textOffsetAnimationController = AnimationController(
+      duration: Duration(seconds: 1),
+      vsync: this,
+    );
+
+    imageOffsetAnimation = Tween<Offset>(begin: Offset(0, 0), end: Offset(0.3, 0))
+        .animate(CurvedAnimation(parent: imageOffsetAnimationController, curve: Curves.ease));
+    textOffsetAnimation = Tween<Offset>(begin: Offset(0, 0), end: Offset(0.3, 0))
+        .animate(CurvedAnimation(parent: textOffsetAnimationController, curve: Curves.ease));
+  }
+
+  @override
+  void dispose() {
+    textOffsetAnimationController.dispose();
+    imageOffsetAnimationController.dispose();
+    super.dispose();
+  }
+
+  void startTitleAnimation() async {
+    imageOffsetAnimationController.forward();
+    Future.delayed(Duration(milliseconds: 200)).then((value) {
+      textOffsetAnimationController.forward();
+    });
+    await Future.delayed(Duration(milliseconds: 475)).then((value) {
+      setState(() {
+        nameColor = Colors.black;
+        sidelineColor = Colors.pink[500];
+      });
+    });
+    Future.delayed(Duration(milliseconds: 500)).then((value) {
+      setState(() {
+        subtitleOpacity = 1;
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Flexible(
+          child: Stack(
+            alignment: Alignment.centerLeft,
+            overflow: Overflow.visible,
+            children: [
+              Container(
+                width: 1.sw,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: SlideTransition(
+                        position: textOffsetAnimation,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            AnimatedDefaultTextStyle(
+                              duration: Duration(milliseconds: 1000),
+                              style: TextStyle(
+                                fontSize: 85.sp,
+                                color: nameColor,
+                                fontWeight: FontWeight.w800,
+                              ),
+                              child: Text(
+                                "Akil Prasath",
+                              ),
+                            ),
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                                  child: AnimatedContainer(
+                                    duration: Duration(milliseconds: 1000),
+                                    height: 5.sp,
+                                    width: 0.55.sw,
+                                    color: sidelineColor,
+                                  ),
+                                ),
+                                AnimatedDefaultTextStyle(
+                                  duration: Duration(milliseconds: 1000),
+                                  style: TextStyle(
+                                    fontSize: 85.sp,
+                                    color: nameColor,
+                                    fontWeight: FontWeight.w800,
+                                  ),
+                                  child: Text(
+                                    "R",
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Flexible(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: 0.1.sw,
+                          ),
+                          AnimatedOpacity(
+                            duration: Duration(milliseconds: 1200),
+                            opacity: subtitleOpacity,
+                            child: Text(
+                              "I create Apps and Websites.",
+                              style: TextStyle(
+                                color: Colors.blue,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 40.sp,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SlideTransition(
+                position: Tween<Offset>(begin: Offset(0, 0), end: Offset(1, 0)).animate(
+                    CurvedAnimation(parent: imageOffsetAnimationController, curve: Curves.ease)),
+                child: Container(
+                  width: 0.15.sw,
+                  child: Image.asset(
+                    "assets/images/akil.jpg",
+                    key: Key("image"),
+                    frameBuilder: (BuildContext context, Widget child, int frame,
+                        bool wasSynchronouslyLoaded) {
+                      if (wasSynchronouslyLoaded) {
+                        return child;
+                      }
+                      if (frame != null && !imageLoaded) {
+                        startTitleAnimation();
+                        imageLoaded = true;
+                      }
+                      return AnimatedOpacity(
+                        child: child,
+                        opacity: frame == null ? 0 : 1,
+                        duration: const Duration(milliseconds: 1000),
+                        curve: Curves.easeOut,
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
