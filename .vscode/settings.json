@@ -3,5 +3,5 @@
         150,
     ],
     "dart.lineLength": 100,
-    "dart.previewFlutterUiGuides": true,
+    "dart.previewFlutterUiGuides": false,
 }
