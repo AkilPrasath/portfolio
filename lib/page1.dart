@@ -310,7 +310,7 @@ class _StartPageState extends State<StartPage> with SingleTickerProviderStateMix
                     SizedBox(
                       height: 0.05.sh,
                     ),
-                     Align(
+                    Align(
                       alignment: Alignment.centerRight,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -402,5 +402,3 @@ class _StartPageState extends State<StartPage> with SingleTickerProviderStateMix
     );
   }
 }
-
-
