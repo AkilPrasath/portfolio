@@ -51,11 +51,13 @@ class ParallaxItem extends StatefulWidget {
 class _ParallaxItemState extends State<ParallaxItem> {
   bool isHovered;
   double dx, dy;
-  double cardWidth = 0.25.sw;
-  double imageHeight = 0.12.sw;
+  double cardWidth;
+  double imageHeight;
   @override
   void initState() {
     super.initState();
+    cardWidth = 0.25.sw;
+    imageHeight = 0.12.sw;
     isHovered = false;
     dx = 0;
     dy = 0;
@@ -63,6 +65,8 @@ class _ParallaxItemState extends State<ParallaxItem> {
 
   @override
   Widget build(BuildContext context) {
+    cardWidth = 0.25.sw;
+    imageHeight = 0.12.sw;
     return MouseRegion(
       onHover: (details) {
         setState(() {

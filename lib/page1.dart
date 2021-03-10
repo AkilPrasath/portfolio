@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:typed_data';
 import 'package:akil_portfolio/widgets/rowbuilder.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,6 +14,8 @@ import 'widgets/parallax_row.dart';
 import 'widgets/title_row.dart';
 
 class StartPage extends StatefulWidget {
+  final Map<String,Uint8List> imageMap;
+  StartPage({@required this.imageMap});
   @override
   _StartPageState createState() => _StartPageState();
 }
@@ -49,6 +53,7 @@ class _StartPageState extends State<StartPage> with SingleTickerProviderStateMix
     "Nullam consectetur tincidunt sapien. Aenean eu molestie tellus. Nunc nec fermentum libero.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt nec dolor ac pretium. In venenatis faucibus dignissim.",
   ];
   bool showCursorImage = false;
+   
   @override
   void initState() {
     super.initState();
@@ -329,10 +334,11 @@ class _StartPageState extends State<StartPage> with SingleTickerProviderStateMix
                       height: 0.1.sh,
                     ),
                     ParallaxRow(),
+                     
                     Container(
-                      height: 1000,
-                      color: Colors.transparent,
-                    ),
+                        height: 1000,
+                        color: Colors.transparent,
+                      ),
                   ],
                 ),
               ),
