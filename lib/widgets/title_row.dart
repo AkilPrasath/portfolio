@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -14,6 +15,7 @@ class _TitleRowState extends State<TitleRow> with TickerProviderStateMixin {
   Color sidelineColor = Colors.transparent;
   double subtitleOpacity = 0;
   double imageOffsetFromLeft = 0;
+  bool showTypeWriterText = false;
   @override
   void initState() {
     super.initState();
@@ -26,10 +28,15 @@ class _TitleRowState extends State<TitleRow> with TickerProviderStateMixin {
       vsync: this,
     );
 
-    imageOffsetAnimation = Tween<Offset>(begin: Offset(0, 0), end: Offset(0.35, 0))
-        .animate(CurvedAnimation(parent: imageOffsetAnimationController, curve: Curves.ease));
     textOffsetAnimation = Tween<Offset>(begin: Offset(0, 0), end: Offset(0.35, 0))
         .animate(CurvedAnimation(parent: textOffsetAnimationController, curve: Curves.ease));
+    textOffsetAnimation.addStatusListener((AnimationStatus status) {
+      if (status == AnimationStatus.completed) {
+        setState(() {
+          showTypeWriterText = true;
+        });
+      }
+    });
   }
 
   @override
@@ -120,28 +127,96 @@ class _TitleRowState extends State<TitleRow> with TickerProviderStateMixin {
                         ),
                       ),
                     ),
-                    Flexible(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            width: 0.1.sw,
-                          ),
-                          AnimatedOpacity(
-                            duration: Duration(milliseconds: 1200),
-                            opacity: subtitleOpacity,
-                            child: Text(
-                              "I create Apps and Websites.",
-                              style: TextStyle(
-                                color: Colors.blue,
-                                fontWeight: FontWeight.w700,
-                                fontSize: 40.sp,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                    // AnimatedOpacity(
+                    //   duration: Duration(milliseconds: 1200),
+                    //   opacity: subtitleOpacity,
+                    //   child: Container(
+                    //     color: Colors.blue,
+                    //     child: Row(
+                    //       children: [
+                    //         SizedBox(width: 0.26.sw),
+                    //         Container(
+                    //           width: 0.6.sw,
+                    //           decoration: BoxDecoration(
+                    //             color: Colors.blue,
+                    //             borderRadius: BorderRadius.circular(15),
+                    //           ),
+                    //           child: Padding(
+                    //             padding: const EdgeInsets.all(8.0),
+                    //             child: Column(
+                    //               mainAxisSize: MainAxisSize.min,
+                    //               children: [
+                    //                 Text(
+                    //                   "A resourceful software developer who is confident in data structures.",
+                    //                   style: TextStyle(
+                    //                     color: Colors.white,
+                    //                     fontSize: 25.sp,
+                    //                   ),
+                    //                 ),
+                    //                 Text(
+                    //                   " Involved in the development of mobile applications and integration of API.",
+                    //                   style: TextStyle(
+                    //                     color: Colors.white,
+                    //                     fontSize: 25.sp,
+                    //                   ),
+                    //                 ),
+                    //                 Text(
+                    //                   " Committed to lifelong learning and believes in teamwork and dedication.",
+                    //                   style: TextStyle(
+                    //                     color: Colors.white,
+                    //                     fontSize: 25.sp,
+                    //                   ),
+                    //                 ),
+                    //               ],
+                    //             ),
+                    //           ),
+                    //         ),
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ),
+                    SizedBox(height: 25.sp),
+                    AnimatedSwitcher(
+                      duration: Duration(milliseconds: 100),
+                      child: showTypeWriterText
+                          ? AnimatedTextKit(
+                              isRepeatingAnimation: false,
+                              animatedTexts: [
+                                TypewriterAnimatedText(
+                                  "I create Apps and Websites. ",
+                                  textStyle: TextStyle(
+                                    color: Colors.blue,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 45.sp,
+                                  ),
+                                  speed: Duration(milliseconds: 75),
+                                ),
+                              ],
+                            )
+                          : Text(""),
                     ),
+                    // Flexible(
+                    //   child: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.center,
+                    //     children: [
+                    //       SizedBox(
+                    //         width: 0.1.sw,
+                    //       ),
+                    //       AnimatedOpacity(
+                    //         duration: Duration(milliseconds: 1200),
+                    //         opacity: subtitleOpacity,
+                    //         child: Text(
+                    //           "I create Apps and Websites.",
+                    //           style: TextStyle(
+                    //             color: Colors.blue,
+                    //             fontWeight: FontWeight.w700,
+                    //             fontSize: 40.sp,
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
@@ -149,27 +224,29 @@ class _TitleRowState extends State<TitleRow> with TickerProviderStateMixin {
                 position: Tween<Offset>(begin: Offset(0, 0), end: Offset(0.7, 0)).animate(
                   CurvedAnimation(parent: imageOffsetAnimationController, curve: Curves.ease),
                 ),
-                child: Container(
-                  width: 0.15.sw,
-                  child: Image.asset(
-                    "assets/images/akil.jpg",
-                    key: Key("image"),
-                    frameBuilder: (BuildContext context, Widget child, int? frame,
-                        bool wasSynchronouslyLoaded) {
-                      if (wasSynchronouslyLoaded) {
-                        return child;
-                      }
-                      if (frame != null && !imageLoaded) {
-                        startTitleAnimation();
-                        imageLoaded = true;
-                      }
-                      return AnimatedOpacity(
-                        child: child,
-                        opacity: frame == null ? 0 : 1,
-                        duration: const Duration(milliseconds: 1000),
-                        curve: Curves.easeOut,
-                      );
-                    },
+                child: ClipOval(
+                  child: Container(
+                    width: 0.15.sw,
+                    child: Image.asset(
+                      "assets/images/akil.jpg",
+                      key: Key("image"),
+                      frameBuilder: (BuildContext context, Widget child, int? frame,
+                          bool wasSynchronouslyLoaded) {
+                        if (wasSynchronouslyLoaded) {
+                          return child;
+                        }
+                        if (frame != null && !imageLoaded) {
+                          startTitleAnimation();
+                          imageLoaded = true;
+                        }
+                        return AnimatedOpacity(
+                          child: child,
+                          opacity: frame == null ? 0 : 1,
+                          duration: const Duration(milliseconds: 1000),
+                          curve: Curves.easeOut,
+                        );
+                      },
+                    ),
                   ),
                 ),
               ),

@@ -47,14 +47,14 @@ class _StartPageState extends State<StartPage> with SingleTickerProviderStateMix
   bool linkedinHovered = false;
   int cardIndex = 0;
   List<String> titleList = [
-    "Title 1",
-    "Title 2",
-    "Title 3",
+    "I am resourceful",
+    "I develop",
+    "I am\nCommitted",
   ];
   List<String> contentList = [
-    "Sed tincidunt nec dolor ac pretium. In venenatis faucibus dignissim. Nullam consectetur tincidunt sapien. Aenean eu molestie tellus. Nunc nec fermentum libero.",
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eu molestie tellus. Nunc nec fermentum libero.",
-    "Nullam consectetur tincidunt sapien. Aenean eu molestie tellus. Nunc nec fermentum libero.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt nec dolor ac pretium. In venenatis faucibus dignissim.",
+    "software developer who is confident in data structures.",
+    "mobile applications and also APIs.",
+    "to lifelong learning and believes in teamwork and dedication.",
   ];
   bool showCursorImage = false;
 
@@ -115,290 +115,328 @@ class _StartPageState extends State<StartPage> with SingleTickerProviderStateMix
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SizedBox(height: 0.02.sh),
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 40.0),
+                        padding: EdgeInsets.symmetric(vertical: 20.0),
                         child: RowBuilder(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.end,
                           itemCount: 4,
                           itemBuilder: (context, int index) {
                             return menuHeadingItem(index);
                           },
                         ),
                       ),
-                      SizedBox(height: 0.03.sh),
+
                       TitleRow(),
                       SizedBox(
                         height: 0.1.sh,
                       ),
-                      Flexible(
-                        child: Container(
-                          height: 0.4.sh,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Flexible(
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      height: 18.sp,
-                                    ),
-                                    carouselIndicator(0),
-                                    carouselIndicator(1),
-                                    carouselIndicator(2),
-                                    SizedBox(
-                                      height: 0.2.sh,
-                                    ),
-                                    HoverableIcon(
-                                      hoverColor: Color(0xffE5495F),
-                                      icon: FontAwesomeIcons.instagram,
-                                      isHovered: instagramHovered,
-                                      onEnter: (d) {
-                                        setState(() {
-                                          instagramHovered = true;
-                                        });
-                                      },
-                                      onExit: (d) {
-                                        setState(() {
-                                          instagramHovered = false;
-                                        });
-                                      },
-                                      onTap: () async {
-                                        String instaURL =
-                                            "https://www.instagram.com/akilspacestark_";
-                                        await canLaunch(instaURL)
-                                            ? launch(instaURL)
-                                            : print("error opening url");
-                                      },
-                                    ),
-                                    SizedBox(
-                                      height: 18.sp,
-                                    ),
-                                    HoverableIcon(
-                                      hoverColor: Color(0xff0073B1),
-                                      icon: FontAwesomeIcons.linkedinIn,
-                                      isHovered: linkedinHovered,
-                                      onEnter: (d) {
-                                        setState(() {
-                                          linkedinHovered = true;
-                                        });
-                                      },
-                                      onExit: (d) {
-                                        setState(() {
-                                          linkedinHovered = false;
-                                        });
-                                      },
-                                      onTap: () async {
-                                        String linkedinURL =
-                                            "https://www.linkedin.com/in/akilprasathr/";
-                                        await canLaunch(linkedinURL)
-                                            ? launch(linkedinURL)
-                                            : print("error opening url");
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                width: 16.sp,
-                              ),
-                              Flexible(
-                                child: AnimatedSwitcher(
-                                  transitionBuilder: (Widget child, Animation<double> animation) {
-                                    final offsetAnimation = Tween<Offset>(
-                                            begin: Offset(-0.2, 0.0), end: Offset(0.0, 0.0))
-                                        .animate(animation);
-                                    return FadeTransition(
-                                      opacity: animation,
-                                      child: SlideTransition(
-                                        position: offsetAnimation,
-                                        child: child,
-                                      ),
-                                    );
-                                  },
-                                  duration: Duration(seconds: 1),
-                                  child: Container(
-                                    key: Key(cardIndex.toString()),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 32.0),
-                                      child: Column(
+                      //Splits side bar and main content
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Flexible(
+                            flex: 7,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 0.05.sw),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Flexible(
+                                    child: Container(
+                                      height: 0.4.sh,
+                                      // color: Colors.blue,
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.start,
                                         children: [
-                                          Text(
-                                            titleList[cardIndex],
-                                            style: TextStyle(
-                                              color: Colors.red,
-                                              fontSize: 60.sp,
-                                              fontWeight: FontWeight.w700,
+                                          Flexible(
+                                            flex: 1,
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              children: [
+                                                SizedBox(
+                                                  height: 18.sp,
+                                                ),
+                                                carouselIndicator(0),
+                                                carouselIndicator(1),
+                                                carouselIndicator(2),
+                                                SizedBox(
+                                                  height: 0.2.sh,
+                                                ),
+                                                HoverableIcon(
+                                                  hoverColor: Color(0xffE5495F),
+                                                  icon: FontAwesomeIcons.instagram,
+                                                  isHovered: instagramHovered,
+                                                  onEnter: (d) {
+                                                    setState(() {
+                                                      instagramHovered = true;
+                                                    });
+                                                  },
+                                                  onExit: (d) {
+                                                    setState(() {
+                                                      instagramHovered = false;
+                                                    });
+                                                  },
+                                                  onTap: () async {
+                                                    String instaURL =
+                                                        "https://www.instagram.com/akilspacestark_";
+                                                    await canLaunch(instaURL)
+                                                        ? launch(instaURL)
+                                                        : print("error opening url");
+                                                  },
+                                                ),
+                                                SizedBox(
+                                                  height: 18.sp,
+                                                ),
+                                                HoverableIcon(
+                                                  hoverColor: Color(0xff0073B1),
+                                                  icon: FontAwesomeIcons.linkedinIn,
+                                                  isHovered: linkedinHovered,
+                                                  onEnter: (d) {
+                                                    setState(() {
+                                                      linkedinHovered = true;
+                                                    });
+                                                  },
+                                                  onExit: (d) {
+                                                    setState(() {
+                                                      linkedinHovered = false;
+                                                    });
+                                                  },
+                                                  onTap: () async {
+                                                    String linkedinURL =
+                                                        "https://www.linkedin.com/in/akilprasathr/";
+                                                    await canLaunch(linkedinURL)
+                                                        ? launch(linkedinURL)
+                                                        : print("error opening url");
+                                                  },
+                                                ),
+                                              ],
                                             ),
-                                          ),
-                                          SizedBox(
-                                            height: 50.sp,
                                           ),
                                           Flexible(
-                                            child: Text(
-                                              contentList[cardIndex],
-                                              style: TextStyle(
-                                                // color: Colors.red,
-                                                fontSize: 25.sp,
+                                            flex: 4,
+                                            child: AnimatedSwitcher(
+                                              transitionBuilder:
+                                                  (Widget child, Animation<double> animation) {
+                                                final offsetAnimation = Tween<Offset>(
+                                                  begin: Offset(-0.2, 0.0),
+                                                  end: Offset(0.0, 0.0),
+                                                ).animate(animation);
+                                                return FadeTransition(
+                                                  opacity: animation,
+                                                  child: SlideTransition(
+                                                    position: offsetAnimation,
+                                                    child: child,
+                                                  ),
+                                                );
+                                              },
+                                              duration: Duration(seconds: 1),
+                                              child: Container(
+                                                key: Key(cardIndex.toString()),
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.symmetric(horizontal: 32.0),
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      FittedBox(
+                                                        child: Text(
+                                                          titleList[cardIndex],
+                                                          style: TextStyle(
+                                                            color: Colors.red,
+                                                            fontSize: 60.sp,
+                                                            fontWeight: FontWeight.w700,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        height: 20.sp,
+                                                      ),
+                                                      Flexible(
+                                                        child: Text(
+                                                          contentList[cardIndex],
+                                                          style: TextStyle(
+                                                            // color: Colors.red,
+                                                            fontSize: 39.sp,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
                                               ),
                                             ),
+                                          ),
+                                          Expanded(
+                                            flex: 5,
+                                            child: Lottie.asset(
+                                                "assets/lotties/developer_lottie.json"),
                                           ),
                                         ],
                                       ),
                                     ),
                                   ),
-                                ),
-                              ),
-                              SizedBox(width: 0.1.sw),
-                              Container(
-                                width: 0.4.sw,
-                                child: Lottie.asset("assets/lotties/developer_lottie.json"),
-                                // child: Container(),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 40.0, horizontal: 0.4.sw),
-                        child: Divider(),
-                      ),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              width: 0.1.sw,
-                            ),
-                            Text(
-                              "Event\nGallery",
-                              style: subHeadingStyle(),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 0.05.sh,
-                      ),
-                      Flexible(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Flexible(
-                              child: MouseRegion(
-                                cursor: SystemMouseCursors.none,
-                                onEnter: (details) {
-                                  setState(() {
-                                    showCursorImage = true;
-                                  });
-                                },
-                                onExit: (details) {
-                                  setState(() {
-                                    showCursorImage = false;
-                                    containerIndex = -1;
-                                  });
-                                },
-                                child: ColumnBuilder(
-                                  itemCount: 5,
-                                  itemBuilder: (context, index) {
-                                    return MouseRegion(
-                                      onHover: (event) {
-                                        setState(() {
-                                          RenderBox box = containerKeys[index]
-                                              .currentContext
-                                              ?.findRenderObject() as RenderBox;
-                                          Offset off = box.localToGlobal(event.localPosition);
-                                          dx = off.dx - 200;
-                                          dy = off.dy - 200;
-                                          containerIndex = index;
-                                        });
-                                      },
-                                      child: Container(
-                                        // color: Colors.purple.withOpacity(0.2),
-                                        alignment: Alignment.center,
-                                        width: 1.sw,
-                                        key: containerKeys[index],
-                                        child: Row(
+                                  SizedBox(height: 0.01.sh),
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 0.1.sw),
+                                    child: Divider(),
+                                  ),
+                                  SizedBox(height: 0.01.sh),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        "Event Gallery",
+                                        style: subHeadingStyle(),
+                                      ),
+                                      SizedBox(
+                                        height: 0.05.sh,
+                                      ),
+                                      Flexible(
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
                                           children: [
-                                            SizedBox(width: 0.1.sw),
-                                            AnimatedDefaultTextStyle(
-                                              duration: Duration(milliseconds: 300),
-                                              style: TextStyle(
-                                                fontSize: containerIndex == index ? 35.sp : 30.sp,
-                                                fontWeight: containerIndex == index
-                                                    ? FontWeight.w800
-                                                    : FontWeight.w600,
-                                                color: containerIndex == index
-                                                    ? Colors.blueGrey[900]
-                                                    : Colors.blueGrey[700],
-                                              ),
-                                              child: Text(galleryHeadings[index]),
-                                            ),
-                                            // Spacer(),
-                                            Expanded(child: SizedBox(width: 0.4.sw)),
-                                            Padding(
-                                              padding: const EdgeInsets.all(8.0),
-                                              child: AnimatedSwitcher(
-                                                  duration: Duration(milliseconds: 300),
-                                                  child: containerIndex != index
-                                                      ? Container(
-                                                          key: ValueKey("$index  "),
-                                                          height: 150.sp,
-                                                          width: 300.sp,
-                                                          child: Image.memory(
-                                                            widget.imageMap["$index.jpg"] ??
-                                                                Uint8List.fromList([]),
-                                                            fit: BoxFit.fitWidth,
+                                            MouseRegion(
+                                              cursor: SystemMouseCursors.none,
+                                              onEnter: (details) {
+                                                setState(() {
+                                                  showCursorImage = true;
+                                                });
+                                              },
+                                              onExit: (details) {
+                                                setState(() {
+                                                  showCursorImage = false;
+                                                  containerIndex = -1;
+                                                });
+                                              },
+                                              child: ColumnBuilder(
+                                                itemCount: 5,
+                                                itemBuilder: (context, index) {
+                                                  return MouseRegion(
+                                                    onHover: (event) {
+                                                      setState(() {
+                                                        RenderBox box = containerKeys[index]
+                                                            .currentContext
+                                                            ?.findRenderObject() as RenderBox;
+                                                        Offset off =
+                                                            box.localToGlobal(event.localPosition);
+                                                        dx = off.dx - 200;
+                                                        dy = off.dy - 200;
+                                                        containerIndex = index;
+                                                      });
+                                                    },
+                                                    child: Container(
+                                                      // color: Colors.purple.withOpacity(0.2),
+
+                                                      alignment: Alignment.center,
+                                                      // width: 1.sw,
+                                                      key: containerKeys[index],
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment.spaceBetween,
+                                                        mainAxisSize: MainAxisSize.max,
+                                                        children: [
+                                                          AnimatedDefaultTextStyle(
+                                                            duration: Duration(milliseconds: 300),
+                                                            style: TextStyle(
+                                                              fontSize: containerIndex == index
+                                                                  ? 35.sp
+                                                                  : 30.sp,
+                                                              fontWeight: containerIndex == index
+                                                                  ? FontWeight.w800
+                                                                  : FontWeight.w600,
+                                                              color: containerIndex == index
+                                                                  ? Colors.blueGrey[900]
+                                                                  : Colors.blueGrey[700],
+                                                            ),
+                                                            child: Text(galleryHeadings[index]),
                                                           ),
-                                                        )
-                                                      : Container(
-                                                          key: UniqueKey(),
-                                                          height: 150.sp,
-                                                          width: 300.sp,
-                                                          color: Colors.transparent,
-                                                        )),
+                                                          // Spacer(),
+
+                                                          Padding(
+                                                            padding: const EdgeInsets.all(8.0),
+                                                            child: AnimatedSwitcher(
+                                                                duration:
+                                                                    Duration(milliseconds: 300),
+                                                                child: containerIndex != index
+                                                                    ? Container(
+                                                                        key: ValueKey("$index  "),
+                                                                        height: 150.sp,
+                                                                        width: 300.sp,
+                                                                        child: Image.memory(
+                                                                          widget.imageMap[
+                                                                                  "$index.jpg"] ??
+                                                                              Uint8List.fromList(
+                                                                                  []),
+                                                                          fit: BoxFit.fitWidth,
+                                                                        ),
+                                                                      )
+                                                                    : Container(
+                                                                        key: UniqueKey(),
+                                                                        height: 150.sp,
+                                                                        width: 300.sp,
+                                                                        color: Colors.transparent,
+                                                                      )),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                              ),
                                             ),
-                                            SizedBox(width: 0.2.sw),
                                           ],
                                         ),
                                       ),
-                                    );
-                                  },
-                                ),
+                                    ],
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                          Flexible(
+                            flex: 3,
+                            child: Container(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Container(
+                                    height: 0.2.sh,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                      SizedBox(
-                        height: 0.05.sh,
-                      ),
+                      SizedBox(height: 30.sp),
                       Align(
                         alignment: Alignment.centerRight,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
                           children: [
+                            Padding(
+                              padding: EdgeInsets.only(left: 0.05.sw),
+                              child: Text(
+                                "Services",
+                                style: subHeadingStyle(),
+                              ),
+                            ),
                             SizedBox(
-                              width: 0.1.sw,
+                              height: 0.1.sh,
                             ),
-                            Text(
-                              "Services",
-                              style: subHeadingStyle(),
-                            ),
+                            ParallaxRow(),
                           ],
                         ),
                       ),
-                      SizedBox(
-                        height: 0.1.sh,
-                      ),
-                      ParallaxRow(),
                       Container(
-                        height: 1000,
+                        height: 100,
                         color: Colors.transparent,
                       ),
                     ],
