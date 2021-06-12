@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 
 class ScalePageRoute extends PageRouteBuilder {
   Widget child;
-  ScalePageRoute({@required this.child})
+  ScalePageRoute({required this.child})
       : super(
           pageBuilder:
               (BuildContext context, Animation<double> animation, Animation<double> secAnimation) {
@@ -11,10 +11,10 @@ class ScalePageRoute extends PageRouteBuilder {
           transitionsBuilder: (BuildContext context, Animation<double> animation,
               Animation<double> secAnimation, Widget child) {
             return ScaleTransition(
-              scale: Tween<double>(end: 1,begin: 2).animate(animation),
-              child: Opacity(opacity: animation.value, child: child));
+                scale: Tween<double>(end: 1, begin: 2).animate(animation),
+                child: Opacity(opacity: animation.value, child: child));
           },
-          transitionDuration: Duration(seconds: 1),
-          reverseTransitionDuration: Duration(seconds: 1),
+          transitionDuration: Duration(milliseconds: 500),
+          reverseTransitionDuration: Duration(milliseconds: 500),
         );
 }

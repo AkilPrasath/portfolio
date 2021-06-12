@@ -9,14 +9,13 @@ class RowBuilder extends StatelessWidget {
   final int itemCount;
 
   const RowBuilder({
-    Key key,
-    @required this.itemBuilder,
-    @required this.itemCount,
+    required this.itemBuilder,
+    required this.itemCount,
     this.mainAxisAlignment: MainAxisAlignment.start,
     this.mainAxisSize: MainAxisSize.max,
     this.crossAxisAlignment: CrossAxisAlignment.center,
     this.verticalDirection: VerticalDirection.down,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +24,8 @@ class RowBuilder extends StatelessWidget {
       mainAxisSize: this.mainAxisSize,
       mainAxisAlignment: this.mainAxisAlignment,
       verticalDirection: this.verticalDirection,
-      children: new List.generate(
-          this.itemCount, (index) => this.itemBuilder(context, index)).toList(),
+      children:
+          new List.generate(this.itemCount, (index) => this.itemBuilder(context, index)).toList(),
     );
   }
 }

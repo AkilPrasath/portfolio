@@ -1,14 +1,14 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 class TitleRow extends StatefulWidget {
   @override
   _TitleRowState createState() => _TitleRowState();
 }
 
 class _TitleRowState extends State<TitleRow> with TickerProviderStateMixin {
-  AnimationController imageOffsetAnimationController, textOffsetAnimationController;
-  Animation<Offset> imageOffsetAnimation, textOffsetAnimation;
+  late AnimationController imageOffsetAnimationController, textOffsetAnimationController;
+  late Animation<Offset> imageOffsetAnimation, textOffsetAnimation;
   bool imageLoaded = false;
   Color nameColor = Colors.transparent;
   Color sidelineColor = Colors.transparent;
@@ -16,7 +16,6 @@ class _TitleRowState extends State<TitleRow> with TickerProviderStateMixin {
   double imageOffsetFromLeft = 0;
   @override
   void initState() {
-     
     super.initState();
     imageOffsetAnimationController = AnimationController(
       duration: Duration(seconds: 1),
@@ -27,9 +26,9 @@ class _TitleRowState extends State<TitleRow> with TickerProviderStateMixin {
       vsync: this,
     );
 
-    imageOffsetAnimation = Tween<Offset>(begin: Offset(0, 0), end: Offset(0.3, 0))
+    imageOffsetAnimation = Tween<Offset>(begin: Offset(0, 0), end: Offset(0.35, 0))
         .animate(CurvedAnimation(parent: imageOffsetAnimationController, curve: Curves.ease));
-    textOffsetAnimation = Tween<Offset>(begin: Offset(0, 0), end: Offset(0.3, 0))
+    textOffsetAnimation = Tween<Offset>(begin: Offset(0, 0), end: Offset(0.35, 0))
         .animate(CurvedAnimation(parent: textOffsetAnimationController, curve: Curves.ease));
   }
 
@@ -48,7 +47,7 @@ class _TitleRowState extends State<TitleRow> with TickerProviderStateMixin {
     await Future.delayed(Duration(milliseconds: 475)).then((value) {
       setState(() {
         nameColor = Colors.black;
-        sidelineColor = Colors.pink[500];
+        sidelineColor = Colors.pink.shade500;
       });
     });
     Future.delayed(Duration(milliseconds: 500)).then((value) {
@@ -66,7 +65,7 @@ class _TitleRowState extends State<TitleRow> with TickerProviderStateMixin {
         Flexible(
           child: Stack(
             alignment: Alignment.centerLeft,
-            overflow: Overflow.visible,
+            clipBehavior: Clip.none,
             children: [
               Container(
                 width: 1.sw,
@@ -147,14 +146,15 @@ class _TitleRowState extends State<TitleRow> with TickerProviderStateMixin {
                 ),
               ),
               SlideTransition(
-                position: Tween<Offset>(begin: Offset(0, 0), end: Offset(1, 0)).animate(
-                    CurvedAnimation(parent: imageOffsetAnimationController, curve: Curves.ease)),
+                position: Tween<Offset>(begin: Offset(0, 0), end: Offset(0.7, 0)).animate(
+                  CurvedAnimation(parent: imageOffsetAnimationController, curve: Curves.ease),
+                ),
                 child: Container(
                   width: 0.15.sw,
                   child: Image.asset(
                     "assets/images/akil.jpg",
                     key: Key("image"),
-                    frameBuilder: (BuildContext context, Widget child, int frame,
+                    frameBuilder: (BuildContext context, Widget child, int? frame,
                         bool wasSynchronouslyLoaded) {
                       if (wasSynchronouslyLoaded) {
                         return child;

@@ -12,7 +12,6 @@ void main() {
   runApp(
     ScreenUtilInit(
       designSize: Size(1920, 1080),
-      allowFontScaling: true,
       builder: () {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -29,21 +28,19 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> with SingleTickerProviderStateMixin {
-   
-  AnimationController controller;
-  Animation animation;
-   Animatable<Color> bgColor ;
+  late AnimationController controller;
+  late Animation animation;
+  // late Animatable<Color> bgColor;
+  bool isLoading = true;
   @override
   void initState() {
     super.initState();
-      bgColor = TweenSequence<Color>([
-   
-  TweenSequenceItem(
-    weight: 1.0,
-    tween: ColorTween(begin: Colors.red, end: Colors.white),
-  ),
-   
-]);
+    // bgColor = TweenSequence<Color>([
+    //   TweenSequenceItem(
+    //     weight: 1.0,
+    //     tween: ColorTween(begin: Colors.red, end: Colors.white),
+    //   ),
+    // ]);
     controller = AnimationController(vsync: this, duration: Duration(milliseconds: 750))
       ..addListener(() {
         setState(() {});
@@ -53,19 +50,35 @@ class _LoadingScreenState extends State<LoadingScreen> with SingleTickerProvider
         if (controller.isDismissed) {
           controller.forward();
         }
-      }); 
+      });
     animation = Tween<double>(begin: 0, end: pi).animate(
       CurvedAnimation(parent: controller, curve: Curves.easeInOutCubic),
     );
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async{
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) async {
       controller.forward();
-      await Future.delayed(Duration(seconds:2));
-      ByteData bytes = await rootBundle.load("assets/images/akil.jpg");
-      Uint8List uint8List = bytes.buffer.asUint8List();
-      Map<String,Uint8List> imageMap = {};
-      imageMap["akil.jpg"]=uint8List;
+      await Future.delayed(Duration(seconds: 2));
+
+      Map<String, Uint8List> imageMap = {};
+      imageMap["0.jpg"] =
+          (await rootBundle.load("assets/images/cybertechz.jpg")).buffer.asUint8List();
+      imageMap["1.jpg"] =
+          (await rootBundle.load("assets/images/vishwakarma.jpg")).buffer.asUint8List();
+      imageMap["2.jpg"] = (await rootBundle.load("assets/images/hackoff.jpg")).buffer.asUint8List();
+      imageMap["3.jpg"] = (await rootBundle.load("assets/images/opencv.jpg")).buffer.asUint8List();
+      imageMap["4.jpg"] = (await rootBundle.load("assets/images/forge.jpg")).buffer.asUint8List();
+
       controller.stop();
-      Navigator.pushReplacement(context,  ScalePageRoute(child: StartPage(imageMap: imageMap,)));
+      setState(() {
+        isLoading = false;
+      });
+      Future.delayed(Duration(milliseconds: 300)).then((value) {
+        Navigator.pushReplacement(
+            context,
+            ScalePageRoute(
+                child: StartPage(
+              imageMap: imageMap,
+            )));
+      });
     });
   }
 
@@ -79,40 +92,46 @@ class _LoadingScreenState extends State<LoadingScreen> with SingleTickerProvider
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-         
         height: 1.sh,
         width: 1.sw,
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Transform(
-                origin: Offset(0.151.sh, 0.151.sh),
-                transform: Matrix4.identity()
-                  ..setEntry(3, 2, 0.001)
-                  ..rotateY(animation.value),
-                child: Container(
-                  height: 0.32.sh,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.red,
-                  ),
-                  child: Image.asset("assets/images/favicon.png"),
-                ),
-              ),
-              Container(
-                height: 0.05.sh,
-              ),
-              Text(
-                "Loading assets...",
-                style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 40.sp,
-                  color: bgColor.animate(controller).value,
-                ),
-              ),
-            ],
-          ), 
+          child: AnimatedSwitcher(
+            duration: Duration(milliseconds: 200),
+            child: isLoading
+                ? Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Transform(
+                        origin: Offset(0.151.sh, 0.151.sh),
+                        transform: Matrix4.identity()
+                          ..setEntry(3, 2, 0.001)
+                          ..rotateY(animation.value),
+                        child: Container(
+                          height: 0.32.sh,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.red,
+                          ),
+                          child: Image.asset("assets/images/favicon.png"),
+                        ),
+                      ),
+                      Container(
+                        height: 0.05.sh,
+                      ),
+                      Text(
+                        "Loading assets...",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 40.sp,
+                          color: ColorTween(begin: Colors.red, end: Colors.white)
+                              .animate(controller)
+                              .value,
+                        ),
+                      ),
+                    ],
+                  )
+                : Container(),
+          ),
         ),
       ),
     );

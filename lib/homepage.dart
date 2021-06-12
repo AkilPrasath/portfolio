@@ -1,6 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'widgets/columnbuilder.dart';
 
 class Home extends StatefulWidget {
@@ -9,33 +9,17 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  double screenWidth;
-  double screenHeight;
   double dx = 0, dy = 0;
-  List<Color> colors = [
-    Colors.red,
-    Colors.blue,
-    Colors.purple,
-    Colors.orange,
-    Colors.green
-  ];
+  List<Color> colors = [Colors.red, Colors.blue, Colors.purple, Colors.orange, Colors.green];
   int containerIndex = 0;
-  List<GlobalKey> containerKeys = [
-    GlobalKey(),
-    GlobalKey(),
-    GlobalKey(),
-    GlobalKey(),
-    GlobalKey()
-  ];
+  List<GlobalKey> containerKeys = [GlobalKey(), GlobalKey(), GlobalKey(), GlobalKey(), GlobalKey()];
   bool showCursorImage = false;
   @override
   Widget build(BuildContext context) {
-    screenWidth = MediaQuery.of(context).size.width;
-    screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Container(
-        height: screenHeight,
-        width: screenWidth,
+        height: 1.sh,
+        width: 1.sw,
         child: Stack(
           children: [
             Positioned(
@@ -76,9 +60,8 @@ class _HomeState extends State<Home> {
                             setState(() {
                               RenderBox box = containerKeys[index]
                                   .currentContext
-                                  .findRenderObject() as RenderBox;
-                              Offset off =
-                                  box.localToGlobal(event.localPosition);
+                                  ?.findRenderObject() as RenderBox;
+                              Offset off = box.localToGlobal(event.localPosition);
                               dy = off.dy - 25;
                               dx = off.dx - 25;
                               containerIndex = index;
