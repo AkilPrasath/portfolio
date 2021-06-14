@@ -119,7 +119,7 @@ class _ParallaxItemState extends State<ParallaxItem> {
                         color: isHovered ? Colors.white : Colors.blueGrey[800],
                       ),
                       child: Text(
-                        "Responsive Web Apps",
+                        "Content yet to come...",
                       ),
                     ),
                     SizedBox(
@@ -133,7 +133,7 @@ class _ParallaxItemState extends State<ParallaxItem> {
                         color: isHovered ? Colors.white : Colors.blueGrey[800],
                       ),
                       child: Text(
-                        "Interactive web apps backed with latest Technology Stack will be built with responsiveness.",
+                        "For now you can play with me by hovering :-)",
                       ),
                     ),
                   ],

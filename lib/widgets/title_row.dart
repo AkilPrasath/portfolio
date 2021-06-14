@@ -1,6 +1,10 @@
+import 'package:akil_portfolio/data/constants.dart';
+import 'package:akil_portfolio/page1.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TitleRow extends StatefulWidget {
   @override
@@ -11,11 +15,11 @@ class _TitleRowState extends State<TitleRow> with TickerProviderStateMixin {
   late AnimationController imageOffsetAnimationController, textOffsetAnimationController;
   late Animation<Offset> imageOffsetAnimation, textOffsetAnimation;
   bool imageLoaded = false;
-  Color nameColor = Colors.transparent;
-  Color sidelineColor = Colors.transparent;
-  double subtitleOpacity = 0;
+  Color nameColor = Colors.black;
+  double opacity = 0;
   double imageOffsetFromLeft = 0;
   bool showTypeWriterText = false;
+
   @override
   void initState() {
     super.initState();
@@ -53,13 +57,7 @@ class _TitleRowState extends State<TitleRow> with TickerProviderStateMixin {
     });
     await Future.delayed(Duration(milliseconds: 475)).then((value) {
       setState(() {
-        nameColor = Colors.black;
-        sidelineColor = Colors.pink.shade500;
-      });
-    });
-    Future.delayed(Duration(milliseconds: 500)).then((value) {
-      setState(() {
-        subtitleOpacity = 1;
+        opacity = 1;
       });
     });
   }
@@ -83,98 +81,154 @@ class _TitleRowState extends State<TitleRow> with TickerProviderStateMixin {
                       alignment: Alignment.centerLeft,
                       child: SlideTransition(
                         position: textOffsetAnimation,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            AnimatedDefaultTextStyle(
-                              duration: Duration(milliseconds: 1000),
-                              style: TextStyle(
-                                fontSize: 85.sp,
-                                color: nameColor,
-                                fontWeight: FontWeight.w800,
+                        child: AnimatedOpacity(
+                          opacity: opacity,
+                          duration: Duration(milliseconds: 400),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              AnimatedDefaultTextStyle(
+                                duration: Duration(milliseconds: 1000),
+                                style: TextStyle(
+                                  fontSize: 85.sp,
+                                  color: nameColor,
+                                  fontWeight: FontWeight.w800,
+                                ),
+                                child: Text(
+                                  "Akil Prasath",
+                                ),
                               ),
-                              child: Text(
-                                "Akil Prasath",
-                              ),
-                            ),
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                                  child: AnimatedContainer(
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        AnimatedContainer(
+                                          duration: Duration(milliseconds: 1000),
+                                          height: 5.sp,
+                                          width: 0.55.sw,
+                                          color: primaryColor,
+                                        ),
+                                        SizedBox(height: 12.sp),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.end,
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            HoverableIcon(
+                                              onEnter: (event) {},
+                                              onExit: (event) {},
+                                              onTap: () {
+                                                canLaunch(instagramURL).then((canLaunch) {
+                                                  if (canLaunch) launch(instagramURL);
+                                                });
+                                              },
+                                              isHovered: true,
+                                              hoverColor: Color(0xffE4326F),
+                                              icon: FontAwesomeIcons.instagram,
+                                            ),
+                                            SizedBox(
+                                              width: 24.sp,
+                                            ),
+                                            HoverableIcon(
+                                              onEnter: (event) {},
+                                              onExit: (event) {},
+                                              onTap: () {
+                                                canLaunch(facebookURL).then((canLaunch) {
+                                                  if (canLaunch) launch(facebookURL);
+                                                });
+                                              },
+                                              isHovered: true,
+                                              hoverColor: Color(0xff3b5998),
+                                              icon: FontAwesomeIcons.facebook,
+                                            ),
+                                            SizedBox(
+                                              width: 24.sp,
+                                            ),
+                                            HoverableIcon(
+                                              onEnter: (event) {},
+                                              onExit: (event) {},
+                                              onTap: () {
+                                                canLaunch(whatsAppURL).then((canLaunch) {
+                                                  if (canLaunch) launch(whatsAppURL);
+                                                });
+                                              },
+                                              isHovered: true,
+                                              hoverColor: Color(0xff47C357),
+                                              icon: FontAwesomeIcons.whatsapp,
+                                            ),
+                                            SizedBox(
+                                              width: 24.sp,
+                                            ),
+                                            HoverableIcon(
+                                              onEnter: (event) {},
+                                              onExit: (event) {},
+                                              onTap: () {
+                                                canLaunch(mailURL).then((canLaunch) {
+                                                  if (canLaunch) launch(mailURL);
+                                                });
+                                              },
+                                              isHovered: true,
+                                              hoverColor: Color(0xffE94134),
+                                              icon: FontAwesomeIcons.envelope,
+                                            ),
+                                            SizedBox(
+                                              width: 24.sp,
+                                            ),
+                                            HoverableIcon(
+                                              onEnter: (event) {},
+                                              onExit: (event) {},
+                                              onTap: () {
+                                                canLaunch(githubURL).then((canLaunch) {
+                                                  if (canLaunch) launch(githubURL);
+                                                });
+                                              },
+                                              isHovered: true,
+                                              hoverColor: Color(0xff211f1f),
+                                              icon: FontAwesomeIcons.github,
+                                            ),
+                                            SizedBox(
+                                              width: 24.sp,
+                                            ),
+                                            HoverableIcon(
+                                              onEnter: (event) {},
+                                              onExit: (event) {},
+                                              onTap: () {
+                                                canLaunch(linkedinURL).then((canLaunch) {
+                                                  if (canLaunch) launch(linkedinURL);
+                                                });
+                                              },
+                                              isHovered: true,
+                                              hoverColor: Color(0xff0077b5),
+                                              icon: FontAwesomeIcons.linkedin,
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  AnimatedDefaultTextStyle(
                                     duration: Duration(milliseconds: 1000),
-                                    height: 5.sp,
-                                    width: 0.55.sw,
-                                    color: sidelineColor,
+                                    style: TextStyle(
+                                      fontSize: 85.sp,
+                                      color: nameColor,
+                                      fontWeight: FontWeight.w800,
+                                    ),
+                                    child: Text(
+                                      "R",
+                                    ),
                                   ),
-                                ),
-                                AnimatedDefaultTextStyle(
-                                  duration: Duration(milliseconds: 1000),
-                                  style: TextStyle(
-                                    fontSize: 85.sp,
-                                    color: nameColor,
-                                    fontWeight: FontWeight.w800,
-                                  ),
-                                  child: Text(
-                                    "R",
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                    // AnimatedOpacity(
-                    //   duration: Duration(milliseconds: 1200),
-                    //   opacity: subtitleOpacity,
-                    //   child: Container(
-                    //     color: Colors.blue,
-                    //     child: Row(
-                    //       children: [
-                    //         SizedBox(width: 0.26.sw),
-                    //         Container(
-                    //           width: 0.6.sw,
-                    //           decoration: BoxDecoration(
-                    //             color: Colors.blue,
-                    //             borderRadius: BorderRadius.circular(15),
-                    //           ),
-                    //           child: Padding(
-                    //             padding: const EdgeInsets.all(8.0),
-                    //             child: Column(
-                    //               mainAxisSize: MainAxisSize.min,
-                    //               children: [
-                    //                 Text(
-                    //                   "A resourceful software developer who is confident in data structures.",
-                    //                   style: TextStyle(
-                    //                     color: Colors.white,
-                    //                     fontSize: 25.sp,
-                    //                   ),
-                    //                 ),
-                    //                 Text(
-                    //                   " Involved in the development of mobile applications and integration of API.",
-                    //                   style: TextStyle(
-                    //                     color: Colors.white,
-                    //                     fontSize: 25.sp,
-                    //                   ),
-                    //                 ),
-                    //                 Text(
-                    //                   " Committed to lifelong learning and believes in teamwork and dedication.",
-                    //                   style: TextStyle(
-                    //                     color: Colors.white,
-                    //                     fontSize: 25.sp,
-                    //                   ),
-                    //                 ),
-                    //               ],
-                    //             ),
-                    //           ),
-                    //         ),
-                    //       ],
-                    //     ),
-                    //   ),
-                    // ),
                     SizedBox(height: 25.sp),
                     AnimatedSwitcher(
                       duration: Duration(milliseconds: 100),
@@ -185,7 +239,7 @@ class _TitleRowState extends State<TitleRow> with TickerProviderStateMixin {
                                 TypewriterAnimatedText(
                                   "I create Apps and Websites. ",
                                   textStyle: TextStyle(
-                                    color: Colors.blue,
+                                    color: primaryColor,
                                     fontWeight: FontWeight.w700,
                                     fontSize: 45.sp,
                                   ),
@@ -195,28 +249,6 @@ class _TitleRowState extends State<TitleRow> with TickerProviderStateMixin {
                             )
                           : Text(""),
                     ),
-                    // Flexible(
-                    //   child: Row(
-                    //     mainAxisAlignment: MainAxisAlignment.center,
-                    //     children: [
-                    //       SizedBox(
-                    //         width: 0.1.sw,
-                    //       ),
-                    //       AnimatedOpacity(
-                    //         duration: Duration(milliseconds: 1200),
-                    //         opacity: subtitleOpacity,
-                    //         child: Text(
-                    //           "I create Apps and Websites.",
-                    //           style: TextStyle(
-                    //             color: Colors.blue,
-                    //             fontWeight: FontWeight.w700,
-                    //             fontSize: 40.sp,
-                    //           ),
-                    //         ),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
                   ],
                 ),
               ),

@@ -15,6 +15,7 @@ void main() {
       builder: () {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
+          // routes: RouteMap.routes,
           home: LoadingScreen(),
         );
       },
@@ -56,7 +57,6 @@ class _LoadingScreenState extends State<LoadingScreen> with SingleTickerProvider
     );
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) async {
       controller.forward();
-      await Future.delayed(Duration(seconds: 2));
 
       Map<String, Uint8List> imageMap = {};
       imageMap["0.jpg"] =
@@ -66,7 +66,14 @@ class _LoadingScreenState extends State<LoadingScreen> with SingleTickerProvider
       imageMap["2.jpg"] = (await rootBundle.load("assets/images/hackoff.jpg")).buffer.asUint8List();
       imageMap["3.jpg"] = (await rootBundle.load("assets/images/opencv.jpg")).buffer.asUint8List();
       imageMap["4.jpg"] = (await rootBundle.load("assets/images/forge.jpg")).buffer.asUint8List();
-
+      imageMap["pair program.jpg"] =
+          (await rootBundle.load("assets/images/pair program.jpg")).buffer.asUint8List();
+      imageMap["coffee.jpg"] =
+          (await rootBundle.load("assets/images/coffee.jpg")).buffer.asUint8List();
+      imageMap["team work.jpg"] =
+          (await rootBundle.load("assets/images/team work.jpg")).buffer.asUint8List();
+      imageMap["time.jpg"] = (await rootBundle.load("assets/images/time.jpg")).buffer.asUint8List();
+      await Future.delayed(Duration(seconds: 2));
       controller.stop();
       setState(() {
         isLoading = false;

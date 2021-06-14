@@ -1,8 +1,9 @@
 import 'dart:async';
 
 import 'dart:typed_data';
-import 'package:akil_portfolio/widgets/rowbuilder.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'dart:ui';
+import 'package:akil_portfolio/data/constants.dart';
+
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -36,6 +37,7 @@ class _StartPageState extends State<StartPage> with SingleTickerProviderStateMix
     GlobalKey(),
     GlobalKey(),
   ];
+
   List<String> galleryHeadings = [
     "Smart India Hackathon - 2019",
     "Chhtra Vishwakarma Award - AICTE",
@@ -43,33 +45,10 @@ class _StartPageState extends State<StartPage> with SingleTickerProviderStateMix
     "Computer Vision Workshop - IIT Madras",
     "Machine Learning Workshop - KCT Tech Park",
   ];
-  bool instagramHovered = false;
-  bool linkedinHovered = false;
+
   int cardIndex = 0;
-  List<String> titleList = [
-    "I am resourceful",
-    "I develop",
-    "I am\nCommitted",
-  ];
-  List<String> contentList = [
-    "software developer who is confident in data structures.",
-    "mobile applications and also APIs.",
-    "to lifelong learning and believes in teamwork and dedication.",
-  ];
   bool showCursorImage = false;
-
-  @override
-  void initState() {
-    super.initState();
-    Timer.periodic(Duration(seconds: 5), startCarousel);
-  }
-
-  void startCarousel(Timer timer) {
-    setState(() {
-      cardIndex = (cardIndex + 1) % 3;
-    });
-  }
-
+  int selectedPage = 0;
   @override
   Widget build(BuildContext context) {
     screenHeight = MediaQuery.of(context).size.height;
@@ -78,6 +57,7 @@ class _StartPageState extends State<StartPage> with SingleTickerProviderStateMix
       body: Container(
         height: screenHeight,
         width: screenWidth,
+        color: Colors.blue.shade50,
         child: Stack(
           children: [
             Positioned(
@@ -117,12 +97,14 @@ class _StartPageState extends State<StartPage> with SingleTickerProviderStateMix
                     children: [
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: 20.0),
-                        child: RowBuilder(
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
-                          itemCount: 4,
-                          itemBuilder: (context, int index) {
-                            return menuHeadingItem(index);
-                          },
+                          children: [
+                            menuHeadingItem("Home", 0),
+                            menuHeadingItem("Education", 1),
+                            menuHeadingItem("Achievements", 2),
+                            menuHeadingItem("Contact", 3),
+                          ],
                         ),
                       ),
 
@@ -145,133 +127,19 @@ class _StartPageState extends State<StartPage> with SingleTickerProviderStateMix
                                   Flexible(
                                     child: Container(
                                       height: 0.4.sh,
-                                      // color: Colors.blue,
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         mainAxisAlignment: MainAxisAlignment.start,
                                         children: [
                                           Flexible(
-                                            flex: 1,
-                                            child: Column(
-                                              mainAxisSize: MainAxisSize.max,
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              children: [
-                                                SizedBox(
-                                                  height: 18.sp,
-                                                ),
-                                                carouselIndicator(0),
-                                                carouselIndicator(1),
-                                                carouselIndicator(2),
-                                                SizedBox(
-                                                  height: 0.2.sh,
-                                                ),
-                                                HoverableIcon(
-                                                  hoverColor: Color(0xffE5495F),
-                                                  icon: FontAwesomeIcons.instagram,
-                                                  isHovered: instagramHovered,
-                                                  onEnter: (d) {
-                                                    setState(() {
-                                                      instagramHovered = true;
-                                                    });
-                                                  },
-                                                  onExit: (d) {
-                                                    setState(() {
-                                                      instagramHovered = false;
-                                                    });
-                                                  },
-                                                  onTap: () async {
-                                                    String instaURL =
-                                                        "https://www.instagram.com/akilspacestark_";
-                                                    await canLaunch(instaURL)
-                                                        ? launch(instaURL)
-                                                        : print("error opening url");
-                                                  },
-                                                ),
-                                                SizedBox(
-                                                  height: 18.sp,
-                                                ),
-                                                HoverableIcon(
-                                                  hoverColor: Color(0xff0073B1),
-                                                  icon: FontAwesomeIcons.linkedinIn,
-                                                  isHovered: linkedinHovered,
-                                                  onEnter: (d) {
-                                                    setState(() {
-                                                      linkedinHovered = true;
-                                                    });
-                                                  },
-                                                  onExit: (d) {
-                                                    setState(() {
-                                                      linkedinHovered = false;
-                                                    });
-                                                  },
-                                                  onTap: () async {
-                                                    String linkedinURL =
-                                                        "https://www.linkedin.com/in/akilprasathr/";
-                                                    await canLaunch(linkedinURL)
-                                                        ? launch(linkedinURL)
-                                                        : print("error opening url");
-                                                  },
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Flexible(
                                             flex: 4,
-                                            child: AnimatedSwitcher(
-                                              transitionBuilder:
-                                                  (Widget child, Animation<double> animation) {
-                                                final offsetAnimation = Tween<Offset>(
-                                                  begin: Offset(-0.2, 0.0),
-                                                  end: Offset(0.0, 0.0),
-                                                ).animate(animation);
-                                                return FadeTransition(
-                                                  opacity: animation,
-                                                  child: SlideTransition(
-                                                    position: offsetAnimation,
-                                                    child: child,
-                                                  ),
-                                                );
-                                              },
-                                              duration: Duration(seconds: 1),
-                                              child: Container(
-                                                key: Key(cardIndex.toString()),
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.symmetric(horizontal: 32.0),
-                                                  child: Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    children: [
-                                                      FittedBox(
-                                                        child: Text(
-                                                          titleList[cardIndex],
-                                                          style: TextStyle(
-                                                            color: Colors.red,
-                                                            fontSize: 60.sp,
-                                                            fontWeight: FontWeight.w700,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        height: 20.sp,
-                                                      ),
-                                                      Flexible(
-                                                        child: Text(
-                                                          contentList[cardIndex],
-                                                          style: TextStyle(
-                                                            // color: Colors.red,
-                                                            fontSize: 39.sp,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
+                                            child: CarouselItem(
+                                              imageMap: widget.imageMap,
                                             ),
                                           ),
                                           Expanded(
-                                            flex: 5,
+                                            flex: 6,
                                             child: Lottie.asset(
                                                 "assets/lotties/developer_lottie.json"),
                                           ),
@@ -329,8 +197,9 @@ class _StartPageState extends State<StartPage> with SingleTickerProviderStateMix
                                                         containerIndex = index;
                                                       });
                                                     },
-                                                    child: Container(
-                                                      // color: Colors.purple.withOpacity(0.2),
+                                                    child: AnimatedContainer(
+                                                      duration: Duration(milliseconds: 300),
+                                                      color: Colors.transparent,
 
                                                       alignment: Alignment.center,
                                                       // width: 1.sw,
@@ -367,12 +236,26 @@ class _StartPageState extends State<StartPage> with SingleTickerProviderStateMix
                                                                         key: ValueKey("$index  "),
                                                                         height: 150.sp,
                                                                         width: 300.sp,
-                                                                        child: Image.memory(
-                                                                          widget.imageMap[
-                                                                                  "$index.jpg"] ??
-                                                                              Uint8List.fromList(
-                                                                                  []),
-                                                                          fit: BoxFit.fitWidth,
+                                                                        decoration: BoxDecoration(
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(
+                                                                                  10),
+                                                                          border: Border.all(
+                                                                            color: primaryColor,
+                                                                            width: 2,
+                                                                          ),
+                                                                        ),
+                                                                        child: ClipRRect(
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(
+                                                                                  10),
+                                                                          child: Image.memory(
+                                                                            widget.imageMap[
+                                                                                    "$index.jpg"] ??
+                                                                                Uint8List.fromList(
+                                                                                    []),
+                                                                            fit: BoxFit.fitWidth,
+                                                                          ),
                                                                         ),
                                                                       )
                                                                     : Container(
@@ -400,17 +283,21 @@ class _StartPageState extends State<StartPage> with SingleTickerProviderStateMix
                           ),
                           Flexible(
                             flex: 3,
-                            child: Container(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Container(
-                                    height: 0.2.sh,
-                                  ),
-                                ],
-                              ),
-                            ),
+                            child: LayoutBuilder(builder: (context, BoxConstraints constraints) {
+                              return Container(
+                                padding: EdgeInsets.all(4),
+                                width: constraints.maxWidth,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    AreaOfExpertise(
+                                      width: constraints.maxWidth,
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }),
                           ),
                         ],
                       ),
@@ -455,26 +342,11 @@ class _StartPageState extends State<StartPage> with SingleTickerProviderStateMix
     return TextStyle(
       fontSize: 50.sp,
       fontWeight: FontWeight.w700,
-      color: Colors.blue,
+      color: primaryColor,
     );
   }
 
-  Padding carouselIndicator(int index) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4.0),
-      child: AnimatedContainer(
-        duration: Duration(milliseconds: 500),
-        height: 10.sp,
-        width: 10.sp,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: cardIndex == index ? Colors.grey.withOpacity(0.8) : Colors.grey.withOpacity(0.2),
-        ),
-      ),
-    );
-  }
-
-  Row menuHeadingItem(int index) {
+  Row menuHeadingItem(String title, int index) {
     return Row(
       children: [
         SizedBox(
@@ -494,12 +366,17 @@ class _StartPageState extends State<StartPage> with SingleTickerProviderStateMix
           child: AnimatedDefaultTextStyle(
             duration: Duration(milliseconds: 250),
             style: TextStyle(
-              fontWeight: FontWeight.w600,
-              fontSize: menuHoverIndex == index ? 25.sp : 24.sp,
-              color: menuHoverIndex == index ? Colors.red : Colors.grey[600],
+              fontWeight: (menuHoverIndex == index || selectedPage == index)
+                  ? FontWeight.w900
+                  : FontWeight.w600,
+              // fontSize: menuHoverIndex == index ? 25.sp : 24.sp,
+              fontSize: 24.sp,
+              color: (menuHoverIndex == index || selectedPage == index)
+                  ? primaryColor
+                  : Colors.grey[600],
             ),
             child: Text(
-              "Heading $index",
+              "$title",
             ),
           ),
         ),
@@ -507,6 +384,310 @@ class _StartPageState extends State<StartPage> with SingleTickerProviderStateMix
           width: 0.05.sw,
         ),
       ],
+    );
+  }
+}
+
+class CarouselItem extends StatefulWidget {
+  final Map<String, Uint8List> imageMap;
+  CarouselItem({required this.imageMap});
+  @override
+  _CarouselItemState createState() => _CarouselItemState();
+}
+
+class _CarouselItemState extends State<CarouselItem> {
+  int cardIndex = 0;
+
+  List<String> carouselList = [
+    "pair program",
+    "time",
+    "team work",
+    "coffee",
+  ];
+
+  List<String> carouselContentsList = [
+    "Pair Programmer",
+    "Value Time",
+    "Team Player",
+    "Of course I Love Coffee <3",
+  ];
+  bool isHovered = false;
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      Future.delayed(Duration(seconds: 2)).then((value) {
+        Timer.periodic(Duration(seconds: 5), startCarousel);
+      });
+    });
+  }
+
+  void startCarousel(Timer timer) {
+    if (!isHovered)
+      setState(() {
+        cardIndex = (cardIndex + 1) % carouselContentsList.length;
+      });
+  }
+
+  Padding carouselIndicator(int index) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 500),
+        height: 10.sp,
+        width: 10.sp,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: cardIndex == index ? Colors.grey.withOpacity(0.9) : Colors.grey.withOpacity(0.3),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 18.sp,
+            ),
+            carouselIndicator(0),
+            carouselIndicator(1),
+            carouselIndicator(2),
+            carouselIndicator(3),
+          ],
+        ),
+        SizedBox(
+          width: 0.01.sw,
+        ),
+        Expanded(
+          child: LayoutBuilder(builder: (context, BoxConstraints constraints) {
+            return MouseRegion(
+              onEnter: (event) {
+                setState(() {
+                  isHovered = true;
+                });
+              },
+              onExit: (event) {
+                setState(() {
+                  isHovered = false;
+                });
+              },
+              child: Container(
+                height: constraints.maxWidth,
+                // padding: EdgeInsets.symmetric(
+                //     vertical: 24.sp, horizontal: 32.sp),
+                decoration: BoxDecoration(
+                  // color: primaryColor,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: AnimatedSwitcher(
+                  transitionBuilder: (Widget child, Animation<double> animation) {
+                    final offsetAnimation = Tween<Offset>(
+                      begin: Offset(0.0, 0.2),
+                      end: Offset(0.0, 0.0),
+                    ).animate(animation);
+                    return FadeTransition(
+                      opacity: animation,
+                      child: SlideTransition(
+                        position: offsetAnimation,
+                        child: child,
+                      ),
+                    );
+                  },
+                  duration: Duration(seconds: 1),
+                  child: Container(
+                    key: Key(cardIndex.toString()),
+                    child: Stack(
+                      children: [
+                        Container(
+                          height: constraints.maxWidth,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(15),
+                            child: Image.memory(
+                              widget.imageMap[carouselList[cardIndex] + ".jpg"] ??
+                                  Uint8List.fromList([]),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.black26,
+                          ),
+                          height: constraints.maxWidth,
+                          width: constraints.maxWidth,
+                          alignment: Alignment.bottomCenter,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Container(
+                                color: Colors.white30,
+                                height: constraints.maxWidth * 0.10,
+                                width: constraints.maxWidth,
+                                alignment: Alignment.center,
+                                child: Text(
+                                  carouselContentsList[cardIndex],
+                                  style: TextStyle(
+                                    fontSize: 30.sp,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: constraints.maxWidth * 0.10,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            );
+          }),
+        ),
+      ],
+    );
+  }
+}
+
+class AreaOfExpertise extends StatelessWidget {
+  const AreaOfExpertise({
+    Key? key,
+    required this.width,
+  }) : super(key: key);
+  final double width;
+  final List<String> techList = const [
+    "C",
+    "Dart",
+    "Firebase",
+    "Flutter",
+    "Git",
+    "Github",
+    "Api",
+    "Web",
+    "Java",
+    "Mongodb",
+    "Mysql",
+    "Nodejs",
+    "Python",
+    "Raspberrypi",
+  ];
+  final List<String> whatIDoList = const [
+    "Solve problems for competitive programming contests and also for fun.",
+    "Develop responsive web and mobile applications for freelance.",
+    "Build and integrate secure APIs with applications.",
+    "Design SQL as well as NoSQL databases (local/cloud) for applications.",
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 32.sp, horizontal: 32.sp),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        color: primaryColor,
+      ),
+      width: width,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            "My Area of Expertise",
+            style: TextStyle(
+              color: accentColor,
+              fontSize: 45.sp,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(
+            height: 0.03.sh,
+          ),
+          Wrap(
+            children: List.generate(
+              techList.length,
+              (index) {
+                return TechItem(techName: techList[index]);
+              },
+            ),
+          ),
+          SizedBox(
+            height: 0.03.sh,
+          ),
+          Text(
+            "What I do ?",
+            style: TextStyle(
+              color: accentColor,
+              fontSize: 40.sp,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(
+            height: 0.015.sh,
+          ),
+          ColumnBuilder(
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: EdgeInsets.symmetric(vertical: 8.0.sp),
+                child: Text(
+                  whatIDoList[index],
+                  style: TextStyle(
+                    fontSize: 25.sp,
+                    color: Colors.white,
+                    height: 1.5,
+                  ),
+                ),
+              );
+            },
+            itemCount: whatIDoList.length,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class TechItem extends StatelessWidget {
+  const TechItem({
+    Key? key,
+    required this.techName,
+  }) : super(key: key);
+
+  final String techName;
+
+  @override
+  Widget build(BuildContext context) {
+    return Tooltip(
+      preferBelow: false,
+      padding: EdgeInsets.all(6.sp),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10.sp),
+      ),
+      textStyle: TextStyle(
+        color: primaryColor,
+        fontSize: 20.sp,
+        fontWeight: FontWeight.w600,
+      ),
+      height: 20.sp,
+      message: "$techName",
+      child: Container(
+        width: 80.sp,
+        padding: EdgeInsets.all(6.sp),
+        child: Image.asset(
+          "assets/images/tech/$techName.png",
+          // color: primaryColor.withOpacity(0.4),
+          // colorBlendMode: BlendMode.modulate,
+        ),
+      ),
     );
   }
 }
@@ -539,7 +720,8 @@ class HoverableIcon extends StatelessWidget {
         onTap: onTap,
         child: FaIcon(
           icon,
-          color: isHovered ? hoverColor : Colors.grey.withOpacity(0.3),
+          color: hoverColor,
+          size: 40.sp,
         ),
       ),
     );
